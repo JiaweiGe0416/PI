@@ -27,13 +27,13 @@ data_3 = data_2[-which(row_na > 0),]
 
 
 #### Data normalization #### 
-X_val_Yihong = data_3[, !names(data_3) %in% c("UEMP15T26", "TB3SMFFM", "TB6SMFFM")]
+X_val_Yihong = data_3[, !names(data_3) %in% c("UNRATE", "CPIAUCSL", "S&P 500")]
 X_val = X_val_Yihong[,-1] ## Remove the dates 
 X_val = matrix(unlist(X_val), nrow(X_val), ncol(X_val)) # convert to a matrix 
 X_val_scaled = scale(X_val)
 # write.csv(X_val_scaled, file = "Scaled_values_of_X.csv")
 
-Y_val_Yihong = data_3[, names(data_3) %in% c("UEMP15T26", "TB3SMFFM", "TB6SMFFM")]
+Y_val_Yihong = data_3[, names(data_3) %in% c("UNRATE", "CPIAUCSL", "S&P 500")]
 Y_val = matrix(unlist(Y_val_Yihong), nrow(Y_val_Yihong), ncol(Y_val_Yihong))
 Y_val_scaled = scale(Y_val)
 # write.csv(Y_val_scaled, file = "Scaled_values_of_Y.csv")
