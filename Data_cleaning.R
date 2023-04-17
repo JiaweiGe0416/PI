@@ -27,25 +27,25 @@ data_3 = data_2[-which(row_na > 0),]
 
 
 #### Data normalization #### 
-X_val_Yihong = data_3[, !names(data_3) %in% c("UNRATE", "CPIAUCSL", "S&P 500")]
+X_val_Yihong = data_3[, !names(data_3) %in% c("UNRATE", "HOUST", "FEDFUNDS")]
 X_val = X_val_Yihong[,-1] ## Remove the dates 
 X_val = matrix(unlist(X_val), nrow(X_val), ncol(X_val)) # convert to a matrix 
 X_val_scaled = scale(X_val)
-# write.csv(X_val_scaled, file = "Scaled_values_of_X.csv")
+write.csv(X_val_scaled, file = "Scaled_values_of_X.csv")
 
-Y_val_Yihong = data_3[, names(data_3) %in% c("UNRATE", "CPIAUCSL", "S&P 500")]
+Y_val_Yihong = data_3[, names(data_3) %in% c("UNRATE", "HOUST", "FEDFUNDS")]
 Y_val = matrix(unlist(Y_val_Yihong), nrow(Y_val_Yihong), ncol(Y_val_Yihong))
 Y_val_scaled = scale(Y_val)
-# write.csv(Y_val_scaled, file = "Scaled_values_of_Y.csv")
+write.csv(Y_val_scaled, file = "Scaled_values_of_Y.csv")
 
 corr_matrix <- cor(X_val_scaled)
-ggcorrplot(corr_matrix)
+#ggcorrplot(corr_matrix)
 
 X.pca = princomp(corr_matrix)
 summary(X.pca)
 fviz_eig(X.pca, addlabels = TRUE) ## for scree plot
 ## Here it seems top three varibles are sufficient. 
 
-X_val_reduced = X_val_scaled %*% X.pca$loadings[,1:3]
-# write.csv(X_val_reduced, file = "X_pca_top3.csv")
+X_val_reduced = X_val_scaled %*% X.pca$loadings[,1]
+write.csv(X_val_reduced, file = "X_pca_top1.csv")
 
