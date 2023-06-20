@@ -289,7 +289,7 @@ def est_quantile(est_type,quantile,X_pre,Y_pre,X_opt,X_adj,X_t):
     
     if est_type == "qrf":
         model = RandomForestQuantileRegressor(n_estimators = 500, random_state=random_seed)
-        model.fit(X_pre, Y_pre)
+        model.fit(X_pre, Y_pre.reshape(-1))
         Q_opt = model.predict(X_opt,quantiles = [quantile]).reshape(-1,1)
         Q_adj = model.predict(X_adj,quantiles = [quantile]).reshape(-1,1)
         Q_t = model.predict(X_t,quantiles = [quantile]).reshape(-1,1)
@@ -298,7 +298,7 @@ def est_quantile(est_type,quantile,X_pre,Y_pre,X_opt,X_adj,X_t):
     
     if est_type == "gb":
         model = GradientBoostingRegressor(n_estimators=300,random_state=random_seed,loss = "quantile", alpha = quantile)
-        model.fit(X_pre, Y_pre)
+        model.fit(X_pre, Y_pre.reshape(-1))
         Q_opt = model.predict(X_opt).reshape(-1,1)
         Q_adj = model.predict(X_adj).reshape(-1,1)
         Q_t = model.predict(X_t).reshape(-1,1)
